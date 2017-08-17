@@ -42,13 +42,18 @@ public class Solution {
 
     public static ArrayList<String> fix(ArrayList<String> list) {
         for(int i=0;i<3;i++){
-            if(list.get(i).contains("р")){
-                if(list.get(i).contains("л")){
-                    continue;
-                } else list.remove(i);
-            } else if(list.get(i).contains("л")){
+            if(list.get(i).contains("л")&&!list.get(i).contains("р")) {
                 list.add(list.get(i));
-            } else continue;
+                i+=2;
+                continue;
+            }
+            if(list.get(i).contains("р")&&!list.get(i).contains("л")) {
+                list.remove(i);
+                --i;
+                continue;
+            }
+            //if(list.get(i).contains("р")&&list.get(i).contains("л"))continue;
+
         }
         return list;
     }
