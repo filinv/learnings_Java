@@ -1,0 +1,76 @@
+/* 
+Семейная перепись
+Создай класс Human с полями имя(String), пол(boolean), возраст(int), отец(Human), мать(Human). Создай объекты и заполни их так, чтобы получилось: Два дедушки, две бабушки, отец, мать, трое детей. Вывести объекты на экран.
+Примечание:
+Если написать свой метод String toString() в классе Human, то именно он будет использоваться при выводе объекта на экран.
+Пример вывода:
+Имя: Аня, пол: женский, возраст: 21, отец: Павел, мать: Катя
+Имя: Катя, пол: женский, возраст: 55
+Имя: Игорь, пол: мужской, возраст: 2, отец: Михаил, мать: Аня
+…
+Требования:
+1. Программа не должна считывать данные с клавиатуры.
+2. Добавить в класс Human поля: имя(String), пол(boolean), возраст(int), отец(Human), мать(Human).
+3. Добавить в класс конструктор public Human(String name, boolean sex, int age).
+4. Добавить в класс конструктор public Human(String name, boolean sex, int age, Human father, Human mother).
+5. Создай 9 разных объектов типа Human (4 объекта без отца и матери и 5 объектов с ними)).
+6. Выведи созданные объекты на экран.
+*/
+
+public class Solution {
+    public static void main(String[] args) {
+        Human h00 = new Human("Вася", true, 60);
+        Human h01 = new Human("Маша", false, 61);
+        Human h02 = new Human("Иван", true, 62);
+        Human h03 = new Human("Глаша", false, 63);
+        Human h10 = new Human("Миша", true, 30, h00, h01);
+        Human h11 = new Human("Агафья", false, 29, h02, h03);
+        Human h20 = new Human("Гога", true, 7, h10, h11);
+        Human h21 = new Human("Энжи", true, 5, h10, h11);
+        Human h22 = new Human("Харя", false, 3, h10, h11);
+        
+        System.out.println(h00.toString());
+        System.out.println(h01.toString());
+        System.out.println(h02.toString());
+        System.out.println(h03.toString());
+        System.out.println(h10.toString());
+        System.out.println(h11.toString());
+        System.out.println(h20.toString());
+        System.out.println(h21.toString());
+        System.out.println(h22.toString());
+    }
+
+    public static class Human {
+        String name;
+        boolean sex;
+        int age;
+        Human father;
+        Human mother;
+        
+        public Human(String name, boolean sex, int age){
+            this.name=name;
+            this.sex=sex;
+            this.age=age;
+        }
+        public Human(String name, boolean sex, int age, Human father, Human mother){
+            this.name=name;
+            this.sex=sex;
+            this.age=age;
+            this.father=father;
+            this.mother=mother;
+        }
+
+        public String toString() {
+            String text = "";
+            text += "Имя: " + this.name;
+            text += ", пол: " + (this.sex ? "мужской" : "женский");
+            text += ", возраст: " + this.age;
+
+            if (this.father != null)
+                text += ", отец: " + this.father.name;
+            if (this.mother != null)
+                text += ", мать: " + this.mother.name;
+            return text;
+        }
+    }
+}
