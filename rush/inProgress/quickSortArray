@@ -1,0 +1,71 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Array;
+/* 
+Пять победителей
+Создать массив на 20 чисел.
+Заполнить его числами с клавиатуры.
+Вывести пять наибольших чисел.
+Каждое значение с новой строки.
+Требования:
+1. Программа должна выводить числа на экран.
+2. Программа должна считывать значения с клавиатуры.
+3. Класс Solution должен содержать два метода.
+4. Метод sort() должен сортировать массив чисел от большего к меньшему.
+5. Метод main() должен вызывать метод sort().
+6. Программа должна выводить пять наибольших чисел массива. Каждое значение с новой строки.
+*/
+
+public class Solution {
+    public static void main(String[] args) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        int[] array = new int[20];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = Integer.parseInt(reader.readLine());
+        }
+        sort(array);
+
+        System.out.println(array[0]);
+        System.out.println(array[1]);
+        System.out.println(array[2]);
+        System.out.println(array[3]);
+        System.out.println(array[4]);
+    }
+    public static void sort(int[] array) {
+        int low=array[0];
+        int high=array[array.length-1];
+        Integer [] arr=int [] array;
+        qsort(array);
+        public static void qsort(Integer[] arr, int low, int high){
+            if(arr==null||arr.length==0)return;
+            if(low>=high)return;
+            //ставим пивот на середину списка
+            int middle = low+(high-low)/2;
+            int pivot = arr[middle];
+            //делаем правую часть меньше пивота, а левую часть больше пивота
+            int i=high, j=low;
+            while(j<=i){
+                //проверяем чтобы все значения справа от пивота были меньше него
+                while(arr[j]<pivot){
+                    j++;
+                }
+                //проверяем чтобы все значения слева от пивота были больше него
+                while(arr[i]>pivot){
+                    i--;
+                }
+                //проверяем значения по бокам от пивота и если требуется меняем
+                //их местами, после этого двигаем итерируем обе служебных переменных
+                if(j<=i){
+                    int temp=arr[j];
+                    arr[j]=arr[i];
+                    arr[i]=temp;
+                    j++;
+                    i--;
+                }
+            }
+            //рекурсивный вызов метода внутри подмассивов
+            if(low<i)qsort(arr,low, i);
+            if(high>j)qsort(arr,j,high);
+        }
+    }
+}
