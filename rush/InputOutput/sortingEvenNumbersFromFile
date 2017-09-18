@@ -1,0 +1,33 @@
+import java.io.*;
+import java.util.*;
+/* 
+Сортировка четных чисел из файла
+1. Ввести имя файла с консоли.
+2. Прочитать из него набор чисел.
+3. Вывести на консоль только четные, отсортированные по возрастанию.
+Требования:
+1. Программа должна считывать данные с консоли.
+2. Программа должна вывести на экран все четные числа считанные из файла отсортированные по возрастанию.
+3. Программа должна выводить данные на экран.
+4. Программа должна закрывать поток чтения из файла(FileInputStream).
+*/
+public class Solution {
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<>();
+        try{
+            BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));//поток для чтения названия файла
+            File fileName = new File(bf.readLine());//название файла
+            BufferedReader fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));//поток для чтения из файла
+        while(fileReader.ready()){
+            Integer data = Integer.parseInt(fileReader.readLine());//надо добавить перехват парсингового эксепшена
+            if(data%2==0)list.add(data);
+        }
+        fileReader.close();
+        Collections.sort(list);
+        for(Integer i: list){System.out.println(i);}
+        bf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
