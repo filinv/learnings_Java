@@ -1,0 +1,36 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.io.File;
+import java.io.*;
+/* 
+Писатель в файл с консоли
+1. Прочесть с консоли имя файла.
+2. Считывать строки с консоли, пока пользователь не введет строку «exit«.
+3. Вывести абсолютно все введенные строки в файл, каждую строчку с новой строки.
+Требования:
+1. Программа должна считывать c консоли имя файла.
+2. Создай и используй объект типа BufferedWriter.
+3. Программа должна читывать строки с консоли, пока пользователь не введет строку "exit".
+4. Программа должна записать абсолютно все введенные строки (включая "exit") в файл, каждую строчку с новой строки.
+5. Метод main должен закрывать объект типа BufferedWriter после использования.
+*/
+public class Solution {
+    public static void main(String[] args) throws IOException{
+        try{
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        File fileName = new File(bf.readLine());//присваиваем путь к файлу переменной типа File
+        BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));//открываем поток записи, в параметре экземпляр FileWriter
+        PrintWriter pw = new PrintWriter(bw);//
+        while(true){
+            String s = bf.readLine();
+            pw.println(s);
+            if(s.equals("exit"))break;
+        }
+        bf.close();
+        bw.close();
+        pw.close();
+        } catch (IOException e) {e.printStackTrace();}
+    }
+}
