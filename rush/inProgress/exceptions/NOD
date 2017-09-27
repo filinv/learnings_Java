@@ -1,0 +1,79 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+/* 
+НОД
+Наибольший общий делитель (НОД).
+Ввести с клавиатуры 2 целых положительных числа.
+Вывести в консоль наибольший общий делитель.
+Требования:
+1. Программа должна считывать с клавиатуры 2 строки.
+2. В случае если введенные строки невозможно преобразовать в положительные целые числа, должно возникать исключение.
+3. Программа должна выводить данные на экран.
+4. Программа должна выводить на экран наибольший общий делитель(НОД) чисел считанных с клавиатуры и успешно завершаться.
+*/
+public class Solution {
+    public static void main(String[] args) throws Exception {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        int a=Integer.parseInt(bf.readLine());
+        int b=Integer.parseInt(bf.readLine());
+        bf.close();
+        if(a<=0||b<=0)throw new Exception();
+        System.out.println(gcd1(a,b));
+        System.out.println(gcd2(a,b));
+        System.out.println(gcd3(a,b));
+        System.out.println(binaryGCD(a,b));
+        System.out.println(binGCD(a,b));
+    }
+    public static int gcd1(int i, int j){return (i==0)? j: gcd(j, i%j);}
+    public static int gcd2(int i, int j){
+      int buf;
+      while(j!=0){
+        buf=j;
+        j=i%j;
+        i=buf;
+        }
+      return i;
+    }
+   public static int gcd3(int i,int j){
+    while(i!=j){
+      if(i>j){
+        i=i-j;
+      } else j=j-i;
+    }
+    return i;
+   }
+   public static int binaryGCD(int i, int j){
+    if(i==j)return i;
+    if(i==0)return j;
+    if(j==0)return i;
+    if((~i&1)!=0){
+      if((~j&1)!=0)return binaryGCD(i>>1,j);
+      else return binaryGCD(i>>1,j>>1)<<1;
+    }
+    if((~j&1)!=0)return binaryGCD(i,j>>1);
+    if(a>b)return binaryGCD((i-j)>>1,j);
+    return binaryGCD((j-i)>>1,i);
+   }
+   public static int binGCD(int i, int j){
+    int shift;
+    if(i==0)return j;
+    if(j==0)return i;
+    for(shift=0;((i|j)&1)==0;++shift){
+      i>>=1;
+      j>>=1;
+    }
+    while((i&1)==0){
+      i>>=1;
+      do{
+        while((j&1)==0) j>>=1;
+        if(i>j){
+          int buf=j;
+          j=i;
+          i=buf;
+        }
+        j=j-i;
+      }
+    }
+    while(j!=0)return i<<shift;
+   }
+}
