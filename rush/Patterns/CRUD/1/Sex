@@ -1,0 +1,13 @@
+public enum Sex {
+    MALE,
+    FEMALE;
+
+    @Override
+    public String toString() {
+        switch (Sex.this){
+            case MALE: return "м";
+            case FEMALE: return "ж";
+        }
+        return null;
+    }
+}
