@@ -1,0 +1,46 @@
+/* 
+Разделение файла
+Считать с консоли три имени файла: файл1, файл2, файл3.
+Разделить файл1 по следующему критерию:
+Первую половину байт записать в файл2, вторую половину байт записать в файл3.
+Если в файл1 количество байт нечетное, то файл2 должен содержать большую часть.
+Закрыть потоки.
+Требования:
+1. Программа должна три раза считать имена файлов с консоли.
+2. Для чтения из файла используй поток FileInputStream, для записи в файлы - FileOutputStream
+3. Первую половину байт из первого файла нужно записать во второй файл.
+4. Вторую половину байт из первого файла нужно записать в третий файл.
+5. Потоки FileInputStream и FileOutputStream должны быть закрыты.
+*/
+import java.io.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            File file1 = new File(bufferedReader.readLine());
+            File file2 = new File(bufferedReader.readLine());
+            File file3 = new File(bufferedReader.readLine());
+            FileInputStream fileInputStream = new FileInputStream(file1);//F:\Program Files\test.txt
+            FileOutputStream fileOutputStream1 = new FileOutputStream(file2);//F:\Program Files\test1.txt
+            FileOutputStream fileOutputStream2 = new FileOutputStream(file3);//F:\Program Files\test2.txt
+            int byteCount=fileInputStream.available();
+            //System.out.println(byteCount);
+            int pivot=byteCount%2==0?byteCount/2:(int)(byteCount/2)+1;
+            for(int i=1;i<pivot+1;i++)fileOutputStream1.write(fileInputStream.read());
+            for(int i=pivot+1;i<byteCount+1;i++)fileOutputStream2.write(fileInputStream.read());
+            //System.out.println(file2.length());
+            //System.out.println(file3.length());
+            fileOutputStream2.close();
+            fileOutputStream1.close();
+            fileInputStream.close();
+            bufferedReader.close();
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
