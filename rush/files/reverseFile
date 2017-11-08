@@ -1,0 +1,31 @@
+/* 
+Реверс файла
+Считать с консоли 2 имени файла: файл1, файл2.
+Записать в файл2 все байты из файл1, но в обратном порядке.
+Закрыть потоки.
+Требования:
+1. Программа должна два раза считать имена файлов с консоли.
+2. Для чтения из файла используй поток FileInputStream, для записи в файл - FileOutputStream
+3. Во второй файл нужно записать все байты из первого в обратном порядке.
+4. Потоки FileInputStream и FileOutputStream должны быть закрыты.
+*/
+import java.io.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            FileInputStream fileInputStream = new FileInputStream(new File(bufferedReader.readLine()));//F:\Program Files\test1.txt
+            FileOutputStream fileOutputStream = new FileOutputStream(new File(bufferedReader.readLine()));//F:\Program Files\test2.txt
+            int byteCount = fileInputStream.available();
+            byte b[]=new byte[byteCount];
+            fileInputStream.read(b);
+            for(int i=b.length-1;i>-1;i--)fileOutputStream.write(b[i]);
+            fileOutputStream.close();
+            fileInputStream.close();
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
