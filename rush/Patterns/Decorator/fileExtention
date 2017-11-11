@@ -1,0 +1,19 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+/*
+UnsupportedFileName
+*/
+public class TxtInputStream extends FileInputStream {
+    public static String fileName = "C:/tmp/result.txt";
+    public TxtInputStream(String fileName) throws FileNotFoundException, UnsupportedFileNameException, IOException{
+        super(fileName);
+        this.fileName=fileName;
+        if(!fileName.endsWith(".txt")){
+            super.close();
+            throw new UnsupportedFileNameException();
+        }
+    }
+    public static void main(String[] args) {
+    }
+}
