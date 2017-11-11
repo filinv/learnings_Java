@@ -1,0 +1,39 @@
+/* 
+Пробелы
+В метод main первым параметром приходит имя файла.
+Вывести на экран соотношение количества пробелов к количеству всех символов. Например, 10.45.
+1. Посчитать количество всех символов.
+2. Посчитать количество пробелов.
+3. Вывести на экран п2/п1*100, округлив до 2 знаков после запятой.
+4. Закрыть потоки.
+*/
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Solution {
+    public static void main(String[] args) {
+        FileInputStream fileInputStream=null;
+        int allSymbols=0;
+        int countOfSpaces=0;
+        char symbol;
+        try {
+            fileInputStream=new FileInputStream(args[0]);//F:\\Program Files\test1.txt
+            while (fileInputStream.available()>0){
+                symbol=(char)fileInputStream.read();
+                allSymbols++;
+                if(symbol==32)countOfSpaces++;
+            }
+            float ratio=(float)countOfSpaces/allSymbols*100;
+            System.out.format("%.2f%n",ratio);
+            System.out.println("allSymbols="+allSymbols+", spaces="+countOfSpaces+", ratio="+ratio);
+            fileInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+/*
+Output: 
+15,93 реально округляет, а не просто режет!)
+allsymbols=88549, spaces=14105, ratio=15.929034
+*/
