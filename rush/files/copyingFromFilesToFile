@@ -1,0 +1,35 @@
+/* 
+Два в одном
+Считать с консоли 3 имени файла.
+Записать в первый файл содержимого второго файла, а потом дописать в первый файл содержимое третьего файла.
+Закрыть потоки.
+*/
+import java.io.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(System.in));
+        try {
+            FileOutputStream first=new FileOutputStream(bufferedReader.readLine());//F:\Program Files\test3.txt
+            FileInputStream second=new FileInputStream(bufferedReader.readLine());//F:\Program Files\test1.txt
+            FileInputStream third=new FileInputStream(bufferedReader.readLine());//F:\Program Files\test2.txt
+            int count1=0;
+            int count2=0;
+            byte buffer[]=new byte[second.available()];
+            while (second.available()>0){
+                count1=second.read(buffer);//количество байт, считанных за данную итерацию, и помещённых в буфер
+                first.write(buffer,0,count1);//записать из буфера с 0-й по count1-позицию
+            }
+            while (third.available()>0){//поток записи не закрыт, поэтому продолжит писать с места, где первый цикл бросил
+                count2=third.read(buffer);
+                first.write(buffer,0,count2);
+            }
+            third.close();
+            second.close();
+            first.close();
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
