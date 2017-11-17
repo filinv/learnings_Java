@@ -1,0 +1,34 @@
+/* 
+Считаем слово
+Считать с консоли имя файла.
+Файл содержит слова, разделенные знаками препинания.
+Вывести в консоль количество слов «world«, которые встречаются в файле.
+Закрыть потоки.
+*/
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Solution {
+    public static void main(String[] args) {
+        BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(System.in));
+        int count=0;
+        String word=null;
+        try {
+            String file=bufferedReader.readLine();//F:\Program Files\tests\test1.txt
+            bufferedReader.close();
+            BufferedReader reader=new BufferedReader(new FileReader(file));
+            while (reader.ready()){
+                word=reader.readLine();
+                for(int i=0;i<word.split("[^a-zA-Z0-9^ ]").length;i++) {
+                    if(word.split("[^a-zA-Z0-9^ ]")[i].equals("world"))count++;
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(count);
+    }
+}
