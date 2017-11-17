@@ -1,0 +1,39 @@
+/* 
+Четные символы
+Считать с консоли 2 имени файла.
+Вывести из первого файла во второй файл все символы с четным индексом.
+*/
+import java.io.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(System.in));
+        try {
+            String file1=bufferedReader.readLine();
+            String file2=bufferedReader.readLine();
+            bufferedReader.close();
+            FileReader reader=new FileReader(file1);//F:\Program Files\tests\test1.txt
+            FileWriter writer=new FileWriter(file2);//F:\Program Files\tests\test2.txt
+            int data;
+            for(int i=1; reader.ready();i++){
+                data= reader.read();
+                if(i%2==0)writer.write(data);
+            }
+            /* так не приняло, хотя вывод такой же
+            char b[]=new char[1024];
+            while(reader.ready()){
+                reader.read(b);
+                for(int i=1;i<b.length;i+=2){
+                    writer.write((int)b[i]);
+                }
+            }
+            */
+            writer.close();
+            reader.close();
+        } catch (FileNotFoundException e1){
+            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
