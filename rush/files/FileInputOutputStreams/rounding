@@ -1,0 +1,43 @@
+/* 
+Округление чисел
+Считать с консоли 2 имени файла.
+Первый файл содержит вещественные(дробные) числа, разделенные пробелом. Например, 3.1415.
+Округлить числа до целых и записать через пробел во второй файл.
+Закрыть потоки.
+Принцип округления:
+3.49 — 3  3.50 — 4  3.51 — 4  -3.49 — -3  -3.50 — -3  -3.51 — -4
+*/
+import java.io.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        BufferedReader consoleReader=new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb=new StringBuilder();
+        float f=0;
+        int rounded=0;
+        char c=0;
+        try {
+            File file1=new File(consoleReader.readLine());//F:\Program Files\tests\test1.txt
+            File file2=new File(consoleReader.readLine());//F:\Program Files\tests\test2.txt
+            consoleReader.close();
+            BufferedInputStream inputStream=new BufferedInputStream(new FileInputStream(file1));
+            BufferedOutputStream outputStream=new BufferedOutputStream(new FileOutputStream(file2));
+            while (inputStream.available()>0){
+                c=(char) inputStream.read();
+                if(c!=' ')sb.append(c);
+                if(c==' '||inputStream.available()==0){
+                    f=Float.parseFloat(sb.toString());
+                    rounded=Math.round(f);
+                    outputStream.write(Integer.toString(rounded).getBytes());//такая конструкция, 
+                    //т.к.иначе метод на вход принимает int и обрезает его до char или byte и запихивает в файл значки неведомые
+                    outputStream.write(" ".getBytes());
+                    sb.delete(0,sb.length());
+                }
+            }
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
