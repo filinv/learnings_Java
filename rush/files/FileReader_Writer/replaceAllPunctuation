@@ -1,0 +1,31 @@
+/* 
+Пунктуация
+Считать с консоли 2 имени файла.
+Первый Файл содержит текст.
+Считать содержимое первого файла, удалить все знаки пунктуации, включая символы новой строки.
+Результат вывести во второй файл.
+Закрыть потоки.
+*/
+import java.io.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        BufferedReader consoleReader=new BufferedReader(new InputStreamReader(System.in));
+        try {
+            String file1=consoleReader.readLine();//F:\Program Files\tests\test1.txt
+            String file2=consoleReader.readLine();//F:\Program Files\tests\test2.txt
+            consoleReader.close();
+            BufferedReader fileReader=new BufferedReader(new FileReader(file1));
+            BufferedWriter fileWriter=new BufferedWriter(new FileWriter(file2));
+            String line=null;
+            while(fileReader.ready()){
+                line=fileReader.readLine();
+                fileWriter.write(line.replaceAll("[^a-zA-Z0-9а-яА-Я]",""));
+            }
+            fileReader.close();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
