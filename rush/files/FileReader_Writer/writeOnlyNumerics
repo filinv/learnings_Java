@@ -1,0 +1,46 @@
+/* 
+Выделяем числа
+Считать с консоли 2 имени файла.
+Вывести во второй файл все числа, которые есть в первом файле.
+Числа выводить через пробел.
+Закрыть потоки.
+Пример тела файла:
+12 text var2 14 8v 1
+Результат:
+12 14 1
+*/
+import java.io.*;
+import java.util.ArrayList;
+
+public class Solution {
+    public static void main(String[] args) {
+        ArrayList<String> list=new ArrayList<>();
+        BufferedReader consoleReader=new BufferedReader(new InputStreamReader(System.in));
+        try {
+            String file1=consoleReader.readLine();//F:\Program Files\tests\test1.txt
+            String file2=consoleReader.readLine();//F:\Program Files\tests\test2.txt
+            consoleReader.close();
+            BufferedReader fileReader=new BufferedReader(new FileReader(file1));
+            BufferedWriter fileWriter=new BufferedWriter(new FileWriter(file2));
+            String line=null;
+            while (fileReader.ready()){
+                line=fileReader.readLine();
+                for(int i=0;i<line.split("[\\s]").length;i++){
+                    list.add(line.split("[\\s]")[i]);
+                }
+                for(String s: list){
+                    try {
+                        Integer.parseInt(s);
+                        fileWriter.write(s+" ");
+                    } finally {
+                        continue;
+                    }
+                }
+            }
+            fileReader.close();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
