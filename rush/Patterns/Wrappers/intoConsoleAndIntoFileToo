@@ -1,0 +1,40 @@
+/* 
+Дублируем текст
+Считай с консоли имя файла.
+В методе main подмени объект System.out написанной тобой ридер-оберткой по аналогии с лекцией.
+Твоя ридер-обертка должна дублировать вывод всего текста в файл, имя которого ты считал.
+Вызови готовый метод printSomething(), воспользуйся testString.
+Верни переменной System.out первоначальный поток.
+Закрой поток файла.
+*/
+import java.io.*;
+
+public class Solution {
+    public static TestString testString = new TestString();
+
+    public static void main(String[] args) {
+        PrintStream initialOut=System.out;
+        ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+        PrintStream printStream=new PrintStream(outputStream);
+        System.setOut(printStream);
+        testString.printSomething();
+        String result=outputStream.toString();
+        System.setOut(initialOut);
+        BufferedReader consoleReader=new BufferedReader(new InputStreamReader(System.in));//F:\Program Files\tests\test2.txt
+        try {
+            File file=new File(consoleReader.readLine());
+            consoleReader.close();
+            BufferedOutputStream writer=new BufferedOutputStream(new FileOutputStream(file));
+            writer.write(outputStream.toByteArray());//поток байт сделали настоящим массивом и записали это в файл
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(result);
+    }
+    public static class TestString {
+        public void printSomething() {
+            System.out.println("it's a text for testing");
+        }
+    }
+}
