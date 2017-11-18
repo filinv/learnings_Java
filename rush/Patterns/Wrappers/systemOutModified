@@ -33,6 +33,8 @@ public class Solution {
         String outString=outputStream.toString();//преобразовываем массив байт в строку и сохраняем в поле
         System.setOut(initialOut);//возвращаем на место переменную
         String result=outString.toUpperCase();//что-то делаем с предыдущей строкой
+        //String result=outString.replaceAll("\\D","");//оставляем только цифры
+        //String result=outString.replaceAll("te","??");//меняем одни куски текста на другие
         System.out.println(result);//выводим
     }
     public static class TestString {
