@@ -1,0 +1,38 @@
+/* 
+Решаем пример
+
+*/
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+public class Solution {
+    public static TestString testString = new TestString();
+
+    public static void main(String[] args) {
+        PrintStream initialOut=System.out;
+        ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+        PrintStream printStream=new PrintStream(outputStream);
+        System.setOut(printStream);
+        testString.printSomething();
+        String s=outputStream.toString();
+        System.setOut(initialOut);
+        String[]symbs=s.replaceAll("(\\D+$)","").split(" ");//убрали буквы, перевод строки и поделили на массив
+        int a=Integer.parseInt(symbs[0]);
+        int b=Integer.parseInt(symbs[2]);
+        String sign=symbs[1];
+        int c=0;
+        switch (symbs[1]) {
+            case "+": c =  a + b;break;
+            case "-": c = a - b;break;
+            case "*": c = a * b;break;
+            case "/": c = a / b;break;
+        }
+        String result = String.format("%d %s %d = %d", a,sign,b,c);
+        System.out.println(result);
+    }
+    public static class TestString {
+        public void printSomething() {
+            System.out.println("3 + 6 = ");
+        }
+    }
+}
