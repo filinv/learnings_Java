@@ -1,0 +1,37 @@
+/* 
+Файлы и исключения
+Читайте с консоли имена файлов.
+Если файла не существует (передано неправильное имя файла), то перехватить исключение FileNotFoundException,
+вывести в консоль переданное неправильное имя файла и завершить работу программы.
+Закрыть потоки.
+Не используйте System.exit();
+*/
+import java.io.*;
+import java.util.ArrayList;
+
+public class Solution {
+    public static void main(String[] args) {
+        BufferedReader consoleReader=new BufferedReader(new InputStreamReader(System.in));
+        String file="file";
+        ArrayList<BufferedReader>readers=new ArrayList<>();
+        try {
+            while(true){
+                file=consoleReader.readLine();
+                try {
+                    BufferedReader fileReader=new BufferedReader(new FileReader(file));
+                    readers.add(fileReader);
+                } catch (FileNotFoundException e) {
+                    System.out.println(file);
+                    for(BufferedReader reader: readers){
+                        reader.close();
+                        //System.out.println(reader.toString()+" closed");
+                    }
+                    consoleReader.close();
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
