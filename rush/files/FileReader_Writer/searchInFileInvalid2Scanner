@@ -1,0 +1,30 @@
+/* 
+Поиск данных внутри файла
+*/
+import java.io.*;
+import java.util.Scanner;
+
+public class Solution {
+    public static void main(String[] args) {
+        BufferedReader consoleReader=new BufferedReader(new InputStreamReader(System.in));
+        Scanner fileReader= null;
+        try {
+            String file=consoleReader.readLine();//F:\Program Files\tests\test1.txt
+            consoleReader.close();
+            fileReader = new Scanner(new File(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String line=null;
+        int id=0;
+        int arg=Integer.parseInt(args[0]);
+        while (fileReader.hasNextLine()){
+            id=fileReader.nextInt();
+            line=fileReader.nextLine();
+            if(id==arg){
+                System.out.println(id+line);
+                break;
+            }
+        }
+    }
+}
