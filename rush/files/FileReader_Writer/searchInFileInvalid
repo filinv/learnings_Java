@@ -1,0 +1,53 @@
+/* 
+Поиск данных внутри файла
+Считать с консоли имя файла.
+Найти в файле информацию, которая относится к заданному id, и вывести ее на экран в виде, в котором она записана в файле.
+Программа запускается с одним параметром: id (int).
+Закрыть потоки.
+В файле данные разделены пробелом и хранятся в следующей последовательности:
+id productName price quantity
+где id — int.
+productName — название товара, может содержать пробелы, String.
+price — цена, double.
+quantity — количество, int.
+Информация по каждому товару хранится в отдельной строке.
+*/
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+public class Solution {
+    public static void main(String[] args) {
+        ArrayList<ArrayList> list=new ArrayList<>();
+        BufferedReader consoleReader=new BufferedReader(new InputStreamReader(System.in));
+        try {
+            String file=consoleReader.readLine();//F:\Program Files\tests\test1.txt
+            consoleReader.close();
+            BufferedReader fileReader=new BufferedReader(new FileReader(file));
+            String line=null;
+            String []buf=new String[4];
+            while (fileReader.ready()){
+                line=fileReader.readLine();
+                buf=line.split("\\s");
+                ArrayList quart=new ArrayList(4);
+                quart.add(Integer.parseInt(buf[0]));
+                quart.add(buf[1]);
+                quart.add(Double.parseDouble(buf[2]));
+                quart.add(Integer.parseInt(buf[3]));
+                list.add(quart);
+            }
+            fileReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int arg=Integer.parseInt(args[0]);
+        for(ArrayList arrayList: list){
+            if(arrayList.get(0).equals(arg)){
+                System.out.println(arrayList.get(0)+" "+arrayList.get(1)+" "+arrayList.get(2)+" "+arrayList.get(3));
+                break;
+            }
+        }
+    }
+}
