@@ -1,0 +1,71 @@
+/* 
+Прайсы(работает, но валидатор не проходит)
+CrUD для таблицы внутри файла.
+Считать с консоли имя файла для операций CrUD.
+Программа запускается со следующим набором параметров:
+-c productName price quantity
+Значения параметров:
+где id - 8 символов.
+productName - название товара, 30 chars (60 bytes).
+price - цена, 8 символов.
+quantity - количество, 4 символа.
+-c - добавляет товар с заданными параметрами в конец файла, генерирует id самостоятельно, инкрементируя максимальный id, найденный в файле.
+В файле данные хранятся в следующей последовательности (без разделяющих пробелов):
+id productName price quantity
+Данные дополнены пробелами до их длины.
+Пример:
+19846   Шорты пляжные синие           159.00 12
+198478  Шорты пляжные черные с рисунко173.00 17
+19847983Куртка для сноубордистов, разм10173.991234
+Требования:
+1. Программа должна считать имя файла для операций CrUD с консоли.
+2. При запуске программы без параметров список товаров должен остаться неизменным.
+3. При запуске программы с параметрами "-c productName price quantity" в конец файла должна добавится новая строка с товаром.
+4. Товар должен иметь следующий id, после максимального, найденного в файле.
+5. Форматирование новой строки товара должно четко совпадать с указанным в задании.
+6. Созданные для файлов потоки должны быть закрыты.
+*/
+import java.io.*;
+
+public class Solution {
+    public static void main(String[] args) throws Exception {
+        int id=0;
+        int bufId=0;
+        int maxId=0;
+        String productName="productName";
+        double price=0.00;
+        int quantity=0;
+        String line="line";
+        BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+        String file=consoleReader.readLine();//F:\Program Files\tests\test2.txt
+        BufferedReader fileReader= new BufferedReader(new FileReader(file));
+        while (fileReader.ready()){
+            line=fileReader.readLine().substring(0,8).trim();
+            bufId=Integer.parseInt(line);
+            if(bufId>maxId)maxId=bufId;
+        }
+        id=maxId+1;
+        fileReader.close();
+        BufferedWriter fileWriter=new BufferedWriter(new FileWriter(file,true));
+        if(args!=null&&args.length>0){//-c неведомая штукенция 199.99 732
+            if(args[0].equals("-c")){
+                StringBuilder stringBuilder=new StringBuilder(30);
+                int last=args.length-1;
+                quantity=Integer.parseInt(args[last]);
+                price=Double.parseDouble(args[last-1]);
+                for(int i=1;i<last-1;i++){
+                    stringBuilder.append(args[i]).append(" ");
+                }
+                stringBuilder.trimToSize();
+                productName=stringBuilder.toString();
+                String toWrite=String.format("%-8d%-30s%-8f%-4d", id,productName,price,quantity);
+                fileWriter.write(toWrite);
+                fileWriter.close();
+            }
+            else {
+                consoleReader.close();
+                fileWriter.close();
+            }
+        }
+    }
+}
