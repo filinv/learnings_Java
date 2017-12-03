@@ -1,0 +1,53 @@
+import java.io.*;
+import java.util.*;
+/* 
+Собираем файл из кусочков.
+Считывать с консоли имена файлов.
+Каждый файл имеет имя: [someName].partN.
+Например, Lion.avi.part1, Lion.avi.part2, ..., Lion.avi.part37.
+Имена файлов подаются в произвольном порядке. Ввод заканчивается словом "end".
+В папке, где находятся все прочтенные файлы, создать файл без суффикса [.partN].
+Например, Lion.avi.
+В него переписать все байты из файлов-частей используя буфер.
+Файлы переписывать в строгой последовательности, сначала первую часть, потом вторую, ..., в конце - последнюю.
+Закрыть потоки.
+Требования:
+1. Программа должна считывать имена файлов с консоли, пока не будет введено слово "end".
+2. Создай поток для записи в файл без суффикса [.partN] в папке, где находятся все считанные файлы.
+3. В новый файл перепиши все байты из файлов-частей *.partN.
+4. Чтение и запись должны происходить с использованием буфера.
+5. Созданные для файлов потоки должны быть закрыты.
+*/
+public class Solution {
+    public static void main(String[] args) {
+        SortedMap<Integer,BufferedReader> parts=new TreeMap<>();
+        BufferedReader consoleReader=new BufferedReader(new InputStreamReader(System.in));
+        String file="file";
+        String[]buf=new String[16];
+        int id;
+        File path=new File(file);
+        String nameWithoutPart=null;
+        try {
+            while(true){
+                file=consoleReader.readLine();//F:\Program Files\tests\lion.txt.part1,3,2
+                if(file.equals("end"))break;
+                BufferedReader part=new BufferedReader(new FileReader(file));
+                buf=file.split(".part");
+                id=Integer.parseInt(buf[1]);
+                parts.put(id,part);
+            }
+            nameWithoutPart=buf[0];
+            String destinationFile=nameWithoutPart;
+            BufferedWriter fullFile=new BufferedWriter(new FileWriter(destinationFile));
+            for(Map.Entry<Integer,BufferedReader> pair: parts.entrySet()){
+                while(pair.getValue().ready()){
+                    fullFile.write(pair.getValue().read());
+                }
+                pair.getValue().close();
+            }
+            fullFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
