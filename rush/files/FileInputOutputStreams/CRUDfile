@@ -1,0 +1,93 @@
+/* 
+Прайсы 2
+CrUD для таблицы внутри файла
+Считать с консоли имя файла для операций CrUD
+Программа запускается с одним из следующих наборов параметров:
+-u id productName price quantity
+-d id
+Значения параметров:
+где id - 8 символов
+productName - название товара, 30 chars (60 bytes)
+price - цена, 8 символов
+quantity - количество, 4 символа
+-u - обновляет данные товара с заданным id
+-d - производит физическое удаление товара с заданным id (все данные, которые относятся к переданному id)
+В файле данные хранятся в следующей последовательности (без разделяющих пробелов):
+id productName price quantity
+Данные дополнены пробелами до их длины
+Пример:
+19847   Шорты пляжные синие           159.00  12
+198479  Шорты пляжные черные с рисунко173.00  17
+19847983Куртка для сноубордистов, разм10173.991234
+Требования:
+1. Программа должна считать имя файла для операций CrUD с консоли.
+2. При запуске программы без параметров список товаров должен остаться неизменным.
+3. При запуске программы с параметрами "-u id productName price quantity" должна обновится информация о товаре в файле.
+4. При запуске программы с параметрами "-d id" строка товара с заданным id должна быть удалена из файла.
+5. Созданные для файлов потоки должны быть закрыты.
+*/
+import java.io.*;
+import java.util.ArrayList;
+
+public class Solution {
+    public static void main(String[] args) throws Exception {
+        int id=0;
+        int bufId=0;
+        String productName="productName";
+        double price=0.00;
+        int quantity=0;
+        String line="line";
+        String notNum="notNum";
+        ArrayList<String> list=new ArrayList<>();
+        BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+        String file=consoleReader.readLine();//F:\Program Files\tests\test2.txt
+        BufferedReader fileReader= new BufferedReader(new FileReader(file));
+        if(args!=null&&args.length>0){//-u 19847984 nevedomaya shtukenciya 19321.99 732
+            if(args[0].equals("-u")){
+                id=Integer.parseInt(args[1]);
+                while (fileReader.ready()){
+                    line=fileReader.readLine();
+                    notNum=line.substring(0,8).trim().replaceAll("\\D","");
+                    bufId=Integer.parseInt(notNum);
+                    if(bufId==id){
+                        StringBuilder stringBuilder=new StringBuilder(30);
+                        int last=args.length-1;
+                        quantity=Integer.parseInt(args[last]);
+                        price=Double.parseDouble(args[last-1]);
+                        for(int i=2;i<last-1;i++){
+                            stringBuilder.append(args[i]).append(" ");
+                        }
+                        stringBuilder.trimToSize();
+                        productName=stringBuilder.toString().concat("                              ").substring(0,30);
+                        String ids=String.valueOf(id).concat("        ").substring(0,8);
+                        String qs=String.valueOf(quantity).concat("    ").substring(0,4);
+                        String prs=String.valueOf(price).concat("        ").substring(0,8);
+                        String toWrite=ids.concat(productName.concat(prs.concat(qs)));
+                        list.add(toWrite);
+                    }
+                    else list.add(line);
+                }
+                fileReader.close();
+            }
+            else if(args[0].equals("-d")){//-d 19847984
+                int dId=Integer.parseInt(args[1]);
+                while (fileReader.ready()){
+                    line=fileReader.readLine();
+                    bufId=Integer.parseInt(line.substring(0,8).trim());
+                    if(bufId!=dId)list.add(line);
+                }
+                fileReader.close();
+            }
+            else {
+                consoleReader.close();
+                fileReader.close();
+            }
+            BufferedWriter fileWriter=new BufferedWriter(new FileWriter(file));
+            for(int i=0;i<list.size();i++){
+                fileWriter.write(list.get(i));
+                if(i != (list.size()-1)) fileWriter.newLine();
+            }
+            fileWriter.close();
+        }
+    }
+}
