@@ -1,5 +1,5 @@
 /* 
-Прайсы(работает, но валидатор не проходит)
+Прайсы
 CrUD для таблицы внутри файла.
 Считать с консоли имя файла для операций CrUD.
 Программа запускается со следующим набором параметров:
@@ -57,9 +57,13 @@ public class Solution {
                     stringBuilder.append(args[i]).append(" ");
                 }
                 stringBuilder.trimToSize();
-                productName=stringBuilder.toString();
-                String toWrite=String.format("%-8d%-30s%-8f%-4d", id,productName,price,quantity);
+                productName=stringBuilder.toString().concat("                              ").substring(0,30);
+                String ids=String.valueOf(id).concat("        ").substring(0,8);
+                String qs=String.valueOf(quantity).concat("    ").substring(0,4);
+                String rs=String.valueOf(price).concat("        ").substring(0,8);
+                String toWrite=ids.concat(productName.concat(rs.concat(qs)));;
                 fileWriter.write(toWrite);
+                fileWriter.newLine();
                 fileWriter.close();
             }
             else {
