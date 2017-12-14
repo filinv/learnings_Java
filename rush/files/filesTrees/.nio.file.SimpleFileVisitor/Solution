@@ -1,0 +1,35 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
+/* 
+Продвинутый поиск файлов
+Требования:
+1. В классе SearchFileVisitor нужно создать поля partOfName, partOfContent, minSize, maxSize и сеттеры для них.
+2. В классе SearchFileVisitor нужно создать поле foundFiles и геттер для него. Поле должно быть сразу инициализировано.
+3. Если в SearchFileVisitor задан критерий поиска partOfName, метод visitFile должен добавить файл в foundFiles, если в названии содержится строка partOfName.
+4. Если в SearchFileVisitor задан критерий поиска partOfContent, метод visitFile должен добавить файл в foundFiles, если в содержимом встречается строка partOfContent.
+5. Если в SearchFileVisitor задан критерий поиска maxSize, метод visitFile должен добавить файл в foundFiles, если размер файла меньше maxSize.
+6. Если в SearchFileVisitor задан критерий поиска minSize, метод visitFile должен добавить файл в foundFiles, если размер файла больше minSize.
+7. Метод visitFile должен быть реализован так, чтобы учитывать сразу несколько критериев поиска.
+*/
+public class Solution {
+
+    public static void main(String[] args) throws IOException {
+        SearchFileVisitor searchFileVisitor = new SearchFileVisitor();
+
+        searchFileVisitor.setPartOfName("");
+        searchFileVisitor.setPartOfContent("");
+        searchFileVisitor.setMinSize(1);
+        searchFileVisitor.setMaxSize(10000);
+
+        Files.walkFileTree(Paths.get("D:/SecretFolder"), searchFileVisitor);        
+
+        List<Path> foundFiles = searchFileVisitor.getFoundFiles();
+        for (Path file : foundFiles) {
+            System.out.println(file);
+        }
+    }
+}
