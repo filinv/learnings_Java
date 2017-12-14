@@ -1,0 +1,27 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+/* 
+Находим все файлы
+Реализовать логику метода getFileTree, который должен в директории root найти список всех файлов включая вложенные.
+Используй очередь, рекурсию не используй.
+Верни список всех путей к найденным файлам, путь к директориям возвращать не надо.
+Путь должен быть абсолютный.
+*/
+public class Solution {
+    public static List<String> getFileTree(String root) throws IOException {
+        List<String> result=new ArrayList<>();
+        Queue<File> names=new PriorityQueue<>();
+        File file=new File(root);
+        Collections.addAll(names,file.listFiles());//в names добавили всё из массива файлов данной директории
+        while(!names.isEmpty()){
+            File currentFile=names.remove();//берём верхний элемент очереди, удаляя его
+            if(currentFile.isDirectory()){
+                Collections.addAll(names,currentFile.listFiles());//если данный файл-директория, добавл.всё его содержимое в конец очереди
+            } else result.add(currentFile.getAbsolutePath());
+        }
+        return result;
+    }
+    public static void main(String[] args) {        
+    }
+}
