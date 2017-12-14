@@ -1,0 +1,66 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+
+/*
+Проход по дереву файлов
+1. На вход метода main подаются два параметра.
+Первый - path - путь к директории, второй - resultFileAbsolutePath - имя существующего файла, который будет содержать результат.
+2. Для каждого файла в директории path и в ее всех вложенных поддиректориях выполнить следующее:
+2.1. Если у файла длина в байтах больше 50, то удалить его (используй метод FileUtils.deleteFile).
+2.2. Если у файла длина в байтах НЕ больше 50, то для всех таких файлов:
+2.2.1. Отсортировать их по имени файла в возрастающем порядке, путь не учитывать при сортировке.
+2.2.2. Переименовать resultFileAbsolutePath в 'allFilesContent.txt' (используй метод FileUtils.renameFile, и, если понадобится, FileUtils.isExist).
+2.2.3. В allFilesContent.txt последовательно записать содержимое всех файлов из п. 2.2.1. После каждого тела файла записать "\n".
+Все файлы имеют расширение txt.
+В качестве разделителя пути используй "/".
+*/
+public class FileUtils {
+    public static void deleteFile(File file) {
+        if (!file.delete()) System.out.println("Can not delete file with name " + file.getName());
+    }
+    public static void renameFile(File source, File destination) {
+        if (!source.renameTo(destination)) System.out.println("Can not rename file with name " + source.getName());
+    }
+    public static boolean isExist(File file) {
+        return file.exists();
+    }
+}
+public class Solution {
+    public static HashMap<String,File> filesNames=new HashMap<>();
+    public static void main(String[] args) throws Exception{
+        File path=new File(args[0]);
+        File resultFileAbsolutePath=new File(args[1]);
+        File allFilesContent=new File(resultFileAbsolutePath.getParent()+"/allFilesContent.txt");
+        if(!FileUtils.isExist(allFilesContent))FileUtils.renameFile(resultFileAbsolutePath,allFilesContent);
+        //BufferedWriter writer=new BufferedWriter(new FileWriter(resultFileAbsolutePath,true));
+        fillFile(path);
+        ArrayList<String> sorted=new ArrayList<>(filesNames.keySet());
+        Collections.sort(sorted);
+        System.out.println(sorted);
+        BufferedWriter writer=new BufferedWriter(new FileWriter(resultFileAbsolutePath,true));
+        for(String s:sorted){
+            BufferedInputStream reader=new BufferedInputStream(new FileInputStream(filesNames.get(s)));
+            while (reader.available()>0){
+                writer.write(reader.read());
+            }
+            reader.close();
+            writer.write("\n");
+        }
+        writer.close();
+    }
+    public static void fillFile(File path){
+        File[] files = path.listFiles();
+        for(File file:files){
+            if(file.isDirectory()){
+                fillFile(file);
+                continue;
+            }
+            if(file.length()>50)FileUtils.deleteFile(file);
+            else {
+                filesNames.put(file.getName(),file);
+            }
+        }
+    }
+}
