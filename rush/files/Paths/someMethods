@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.List;
 /* 
 Своя реализация
+https://urvanov.ru/2016/05/17/java-8-файлы-nio-2/#path
 Реализуй логику методов:
 1. readBytes - должен возвращать все байты файла fileName.
 2. readLines - должен возвращать все строки файла fileName. Используй кодировку по умолчанию.
