@@ -1,0 +1,51 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+/* 
+Что внутри папки?
+https://urvanov.ru/2016/05/17/java-8-файлы-nio-2/
+Напиши программу, которая будет считать подробную информацию о папке и выводить ее на консоль.
+Первым делом считай путь к папке с консоли.
+Если введенный путь не является директорией - выведи "[полный путь] - не папка" и заверши работу.
+Затем посчитай и выведи следующую информацию:
+Всего папок - [количество папок в директории]
+Всего файлов - [количество файлов в директории и поддиректориях]
+Общий размер - [общее количество байт, которое хранится в директории]
+Используй только классы и методы из пакета java.nio.
+Квадратные скобки [ ] выводить на экран не нужно.
+*/
+public class Solution extends SimpleFileVisitor{
+    static int countFolders=-1;
+    static int countFiles=0;
+    static int resultSize=0;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader consoleReader=new BufferedReader(new InputStreamReader(System.in));
+        Path fileName= Paths.get(consoleReader.readLine());//F:\Program Files\tests
+        consoleReader.close();
+
+        if(!fileName.toFile().isDirectory()){
+            System.out.println(fileName.toString().concat(" - не папка"));
+        }
+        else {
+            final Solution solution=new Solution();
+            Files.walkFileTree(fileName,solution);
+            System.out.format("Всего папок - %d%nВсего файлов - %d%nОбщий размер - %d%n",countFolders,countFiles,resultSize);
+        }
+    }
+    @Override
+    public FileVisitResult visitFile(Object file, BasicFileAttributes attrs) throws IOException {
+        Path path=Paths.get(file.toString());
+        if(path.toFile().isFile())countFiles++;
+        resultSize+=path.toFile().length();
+        return super.visitFile(file, attrs);
+    }
+    @Override
+    public FileVisitResult preVisitDirectory(Object dir, BasicFileAttributes attrs) throws IOException {
+        Path path=Paths.get(dir.toString());
+        if(path.toFile().isDirectory())countFolders++;
+        return super.preVisitDirectory(dir, attrs);
+    }
+}
