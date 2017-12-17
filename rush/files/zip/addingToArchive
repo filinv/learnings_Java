@@ -1,0 +1,46 @@
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
+/* 
+Добавление файла в архив
+В метод main приходит список аргументов.
+Первый аргумент - полный путь к файлу fileName.
+Второй аргумент - путь к zip-архиву.
+Добавить файл (fileName) внутрь архива в директорию 'new'.
+Если в архиве есть файл с таким именем, то заменить его.
+*/
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        HashMap<ZipEntry,ByteArrayOutputStream> zipEntries=new HashMap<>();
+        Path fileName = Paths.get(args[0]);
+        Path zipArchive = Paths.get(args[1]);
+        ZipInputStream zipInputStream=new ZipInputStream(new FileInputStream(zipArchive.toString()));
+        ZipOutputStream zipOutputStream=new ZipOutputStream(new FileOutputStream(zipArchive.toString(),true));
+        ZipEntry ourFile=new ZipEntry("new\\"+fileName.getFileName().toString());
+        ZipEntry firstEntry;
+        while ((firstEntry=zipInputStream.getNextEntry())!=null){
+            ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+            byte buf[]=new byte[1024];
+            int count=0;
+            while((count=zipInputStream.read(buf))!=-1){
+                byteArrayOutputStream.write(buf,0,count);
+            }
+            if(!firstEntry.equals(ourFile))zipEntries.put(firstEntry,byteArrayOutputStream);
+        }
+        zipInputStream.close();
+        //ZipEntry ourFile=new ZipEntry("new\\"+fileName.getFileName().toString());
+        zipOutputStream.putNextEntry(ourFile);
+        Files.copy(fileName,zipOutputStream);
+        for(Map.Entry<ZipEntry,ByteArrayOutputStream> pair:zipEntries.entrySet()){
+            zipOutputStream.putNextEntry(pair.getKey());
+            zipOutputStream.write(pair.getValue().toByteArray());
+        }
+        zipOutputStream.close();
+    }
+}
