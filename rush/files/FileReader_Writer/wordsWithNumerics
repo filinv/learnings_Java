@@ -1,0 +1,33 @@
+/* 
+Слова с цифрами
+В метод main первым параметром приходит имя файла1, вторым - файла2.
+Файл1 содержит строки со словами, разделенные пробелом.
+Записать через пробел в Файл2 все слова, которые содержат цифры, например, а1 или abc3d.
+Закрыть потоки.
+*/
+import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Solution {
+    public static void main(String[] args) {
+        try {
+            BufferedReader reader=new BufferedReader(new FileReader(args[0]));//home/bobah/IdeaProjects/tests/test2.txt
+            BufferedWriter writer=new BufferedWriter(new FileWriter(args[1],true));
+            Pattern pattern=Pattern.compile("(.*)\\d(.*)");
+            while (reader.ready()){
+                String[]buf=reader.readLine().split("\\s");
+                for(String s:buf){
+                    Matcher matcher=pattern.matcher(s);
+                    if (matcher.find()){
+                        writer.write(s+" ");
+                    }
+                }
+            }
+            reader.close();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
