@@ -1,0 +1,44 @@
+/* 
+Определяем адрес сети
+
+*/
+public class Solution {
+    public static void main(String[] args) {
+        byte[] ip = new byte[]{(byte) 192, (byte) 168, 1, 2};
+        byte[] mask = new byte[]{(byte) 255, (byte) 255, (byte) 254, 0};
+        byte[] netAddress = getNetAddress(ip, mask);
+        print(ip);          //11000000 10101000 00000001 00000010
+        print(mask);        //11111111 11111111 11111110 00000000
+        print(netAddress);  //11000000 10101000 00000000 00000000
+    }
+    public static byte[] getNetAddress(byte[] ip, byte[] mask) {
+        byte[]result=new byte[4];
+        for (int i=0;i<ip.length;i++){
+            result[i]=(byte)(ip[i]&mask[i]);
+        }
+        return result;
+    }
+    public static void print(byte[] bytes) {
+        for(byte b:bytes){
+            int i=b;
+            if((int)b<0){i=256+b;}
+            /*
+            https://ru.stackoverflow.com/questions/583558/%d0%92%d1%8b%d0%b2%d0%be%d0%b4-%d1%87%d0%b8%d1%81%d0%bb%d0%b0-%d0%bd%d0%b0-%d0%ba%d0%be%d0%bd%d1%81%d0%be%d0%bb%d1%8c-%d0%b2-%d0%b1%d0%b8%d0%bd%d0%b0%d1%80%d0%bd%d0%be%d0%bc-%d0%b2%d0%b8%d0%b4%d0%b5
+            byte – 8-битовый тип (со знаком), область его значений [-(2^7);(2^7)-1], то есть [-128;127].
+Выполнение преобразования:
+byte b = (byte) 192;
+происходит следующим образом:
+Так как 192 не помещается в byte, то вычисляется остаток от деления числа 192 на диапазон значений byte:
+192 % 2^8 = 192
+Так как остаток от деления все равно не влезает в byte, то происходит вычитание размера диапазона byte из остатка от деления, 
+то есть из числа 192:
+192 - 256 = -64
+И в итоге, в переменной b будет содержаться значение -64
+            */
+            //System.out.print(i+" ");
+            //System.out.print(b+" ");
+            System.out.print(String.format("%8s", Integer.toBinaryString(i)).replace(' ', '0')+" ");
+        }
+        System.out.println("");
+    }
+}
