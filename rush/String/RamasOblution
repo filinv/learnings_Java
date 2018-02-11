@@ -1,0 +1,36 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+/* 
+Омовение Рамы
+Написать программу, которая вводит с клавиатуры строку текста.
+Программа заменяет в тексте первые буквы всех слов на заглавные.
+Вывести результат на экран.
+Пример ввода:
+мама мыла раму.
+Пример вывода:
+Мама Мыла Раму.
+Требования:
+1. Программа должна выводить текст на экран.
+2. Программа должна считывать строку с клавиатуры.
+3. Класс Solution должен содержать один метод.
+4. Программа должна заменять в тексте первые буквы всех слов на заглавные(после первых проверок выяснилось, 
+что текст может начинаться с пробелов и что слова могут разделять более одного пробела).
+*/
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String line = reader.readLine();
+        reader.close();
+        String[]words=line.trim().split("([\\s]+)");
+        ArrayList<String> buf=new ArrayList<>();
+        for(String word:words){
+            buf.add(word.substring(0,1).toUpperCase().concat(word.substring(1)));
+        }
+        for(String s:buf){
+            System.out.print(s+" ");
+        }
+    }
+}
