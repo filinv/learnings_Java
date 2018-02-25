@@ -15,6 +15,10 @@ import java.security.MessageDigest;
 2. Метод compareMD5(ByteArrayOutputStream byteArrayOutputStream, String md5) должен использовать MessageDigest.
 3. Метод compareMD5(ByteArrayOutputStream byteArrayOutputStream, String md5) должен возвращать результат сравнения вычисленного MD5 хеша для byteArrayOutputStream с переданным параметром md5.
 4. Класс Solution должен содержать метод main.
+
+MessageDigest messageDigest = MessageDigest.getInstance("MD5"); 
+BigInteger i = new BigInteger(1, messageDigest.digest(byteArrayOutputStream.toByteArray())); 
+return String.format("%032x", i).equals(md5);
 */
 public class Solution {
     public static void main(String... args) throws Exception {
