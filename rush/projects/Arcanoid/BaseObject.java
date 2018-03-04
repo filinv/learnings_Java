@@ -1,0 +1,2 @@
+public class BaseObject {
+}
