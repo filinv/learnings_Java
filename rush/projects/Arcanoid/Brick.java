@@ -1,2 +1,2 @@
-public class Brick {
+public class Brick extends BaseObject{
 }
