@@ -1,5 +1,8 @@
 public class Arkanoid {
     private int width, height;
+    private Ball ball;
+    private Stand stand;
+    private List<Brick>bricks;
     
     public Arkanoid(int width, int height) {
         this.width = width;
@@ -18,5 +21,23 @@ public class Arkanoid {
     }
     public void setHeight(int height) {
         this.height = height;
+    }
+    public Ball getBall() {
+        return ball;
+    }
+    public Stand getStand() {
+        return stand;
+    }
+    public List<Brick> getBricks() {
+        return bricks;
+    }
+    public void setBall(Ball ball) {
+        this.ball = ball;
+    }
+    public void setStand(Stand stand) {
+        this.stand = stand;
+    }
+    public void setBricks(List<Brick> bricks) {
+        this.bricks = bricks;
     }
 }
