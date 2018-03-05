@@ -5,7 +5,7 @@ public class Canvas {
     public Canvas(int width, int height) {
         this.width = width;
         this.height = height;
-        matrix=new char[height+2][width+2];
+        this.matrix=new char[height+2][width+2];
     }
     public int getWidth() {
         return width;
@@ -33,20 +33,31 @@ public class Canvas {
         }
     }
     public void drawMatrix(double x, double y, int[][] matrix, char c){
-        for(int i=0;i<matrix.length;i++){
-            for(int j=0;j<matrix[i].length;j++){
-                if(matrix[i][j]!=0){
+        int height = matrix.length;
+        int width = matrix[0].length;
+        for(int i=0;i<height;i++){
+            for(int j=0;j<width;j++){
+                if(matrix[i][j]==1){
                     setPoint(x+j,y+i,c);
                 }
             }
         }
     }
     public void clear(){
-        matrix=new char[height+2][width+2];
+        this.matrix=new char[height+2][width+2];
     }
     public void print(){
-        for (char[] chars : matrix) {
-            System.out.println(new String(chars));
+        System.out.println();
+        for (int i = 0; i < height + 2; i++) {
+            for (int j = 0; j < width + 2; j++) {
+                System.out.print(" ");
+                System.out.print(matrix[i][j]);
+                System.out.print(" ");
+            }
+            System.out.println();
         }
+        System.out.println();
+        System.out.println();
+        System.out.println();
     }
 }
