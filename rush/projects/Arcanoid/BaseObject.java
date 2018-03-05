@@ -12,6 +12,12 @@ public abstract class BaseObject {
         double distance=Math.sqrt(Math.pow(this.x-o.x,2)+Math.pow(this.y-o.y,2));
         return distance<=Math.max(this.radius,o.radius);
     }
+    void checkBorders(double minx, double maxx, double miny, double maxy) {
+        if (x < minx) x = minx;
+        if (x > maxx) x = maxx;
+        if (y < miny) y = miny;
+        if (y > maxy) y = maxy;
+    }
     public double getX() {
         return x;
     }
