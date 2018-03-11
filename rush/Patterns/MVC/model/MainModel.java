@@ -9,11 +9,13 @@ public class MainModel implements Model {
     }
     @Override
     public void loadUsers() {
+        modelData.setDisplayDeletedUserList(false);
         List<User>list=userService.getUsersBetweenLevels(1,100);
         modelData.setUsers(list);
     }
     @Override
     public void loadDeletedUsers() {
+        modelData.setDisplayDeletedUserList(true);
         List<User> users = userService.getAllDeletedUsers();
         modelData.setUsers(users);
     }
