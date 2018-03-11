@@ -3,7 +3,9 @@ public class UsersView implements View {
     public void fireEventShowAllUsers(){
         controller.onShowAllUsers();
     }
-
+    public void fireEventShowDeletedUsers() {
+        controller.onShowAllDeletedUsers();
+    }
     @Override
     public void refresh(ModelData modelData) {
         System.out.println("All users:");
