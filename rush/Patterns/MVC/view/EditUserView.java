@@ -13,4 +13,7 @@ public class EditUserView implements View {
     public void fireEventUserDeleted(long id){
         controller.onUserDelete(id);
     }
+    public void fireEventUserChanged(String name, long id, int level){
+        controller.onUserChange(name,id,level);
+    }
 }
