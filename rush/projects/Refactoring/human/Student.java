@@ -9,9 +9,9 @@ public class Student extends Human {
     private Date endOfSession;
 
     public Student(String name, int age, double averageGrade) {
-        super(false);
-        this.name = name;
-        this.age = age;
+        super(name,age);
+        //this.name = name;
+        //this.age = age;
         this.averageGrade = averageGrade;
     }
 
