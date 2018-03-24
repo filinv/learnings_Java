@@ -1,3 +1,18 @@
+Рефакторинг (6)
+6.1. Замена параметра набором специализированных методов. Замени метод setValue() класса
+Student специализированными методами setCourse и setAverageGrade.
+6.2. Добавление параметра. Добавить параметр с типом double в метод getStudentWithAverageGrade(), чтобы было понятно с каким средним балом нужен студент.
+Реализуй метод getStudentWithAverageGrade().
+6.3. Удаление параметра. Убери параметр из метода getStudentWithMaxAverageGrade().
+Реализуй этот метод, он должен возвращать студента с максимальным средним балом.
+6.4. Разделение запроса и модификатора. Раздели метод getStudentWithMinAverageGradeAndExpel на Student getStudentWithMinAverageGrade() и void expel(Student student). Первый метод должен возвратить студента с минимальным средним балом, а второй - отчислить переданного студента (удалять из списка students).
+
+Требования:
+1. Необходимо заменить метод setValue класса Student специализированными методами setCourse и setAverageGrade.
+2. Необходимо добавить параметр с типом double в метод getStudentWithAverageGrade() класса University и реализовать метод.
+3. Необходимо удалить параметр из метода getStudentWithMaxAverageGrade(double) класса University и реализовать метод.
+4. Необходимо разделить метод getStudentWithMinAverageGradeAndExpel на Student getStudentWithMinAverageGrade() и void expel(Student student) и реализовать эти два метода.
+
 Рефакторинг (5)
 5.1. Создание шаблонного метода.
 5.1.1. Добавь в класс Human метод String getPosition(), который должен возвращать строку "Человек".
