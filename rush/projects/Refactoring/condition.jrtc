@@ -1,3 +1,21 @@
+Рефакторинг (11)
+11.1. Замена кода ошибки исключением. Перепиши метод заправиться fill(double
+numberOfLiters), чтобы он в случае ошибки кидал исключение Exception.
+11.2. Разбиение условного оператора.
+11.2.1. Добавь и реализуй метод в классе Car, определяющий относится ли переданная дата к
+лету: boolean isSummer(Date date , Date summerStart, Date summerEnd).
+11.2.2. Добавь и реализуй метод, рассчитывающий расход топлива зимой: double
+getWinterConsumption(int length).
+11.2.3. Добавь и реализуй метод, рассчитывающий расход топлива летом: double
+getSummerConsumption(int length).
+11.2.4. Перепиши метод getTripConsumption(), используя новые методы.
+Требования:
+1. Необходимо изменить метод fill(double numberOfLiters) класса Car, чтобы он в случае ошибки бросал исключение Exception.
+2. Необходимо добавить в класс Car и реализовать публичный метод boolean isSummer(Date date , Date summerStart, Date summerEnd).
+3. Необходимо добавить в класс Car и реализовать публичный метод double getWinterConsumption(int length).
+4. Необходимо добавить в класс Car и реализовать публичный метод double getSummerConsumption(int length).
+5. Необходимо изменить метод getTripConsumption(), используя методы: isSummer, getWinterConsumption, getSummerConsumption.
+
 Рефакторинг (10)
 Разберись с кодом в пакете car (машина).
 10.1. Замена конструктора фабричным методом.
