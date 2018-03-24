@@ -1,4 +1,4 @@
-public class Teacher extends Human {
+public class Teacher extends UniversityPerson {
     private int numberOfStudents;    
 
     public Teacher(String name, int age, int numberOfStudents) {
