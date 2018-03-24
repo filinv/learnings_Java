@@ -48,12 +48,11 @@ public class Car {
     }
 
     public int getNumberOfPassengersCanBeTransferred() {
-        if (!isDriverAvailable())
-            return 0;
-        if (fuel <= 0)
-            return 0;
-
-        return numberOfPassengers;
+        if(canPassengersBeTransferred())return numberOfPassengers;
+        else return 0;
+    }
+    private boolean canPassengersBeTransferred(){
+        return isDriverAvailable()&&fuel>0;
     }
 
     public boolean isDriverAvailable() {
@@ -65,11 +64,9 @@ public class Car {
     }
 
     public void startMoving() {
+        fastenDriverBelt();
         if (numberOfPassengers > 0) {
             fastenPassengersBelts();
-            fastenDriverBelt();
-        } else {
-            fastenDriverBelt();
         }
     }
 
@@ -79,13 +76,7 @@ public class Car {
     public void fastenDriverBelt() {
     }
 
-    public int getMaxSpeed() {
-        if (type == TRUCK)
-            return 80;
-        if (type == SEDAN)
-            return 120;
-        return 90;
-    }
+    public abstract int getMaxSpeed();
     public boolean isSummer(Date date , Date summerStart, Date summerEnd){
         if(date.after(summerStart)&&date.before(summerEnd))return true;
         else return false;
