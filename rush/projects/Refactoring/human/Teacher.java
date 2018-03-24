@@ -1,14 +1,8 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Teacher extends Human {
-    private int numberOfStudents;
-    private String university;
+    private int numberOfStudents;    
 
     public Teacher(String name, int age, int numberOfStudents) {
         super(name, age);
-        //this.name = name;
-        //this.age = age;
         this.numberOfStudents = numberOfStudents;
     }
 
@@ -17,15 +11,7 @@ public class Teacher extends Human {
     }
 
     public void teach() {
-    }
-
-    public String getUniversity() {
-        return university;
-    }
-
-    public void setUniversity(String university) {
-        this.university = university;
-    }
+    }    
 
     public void printData() {
         System.out.println("Преподаватель: " + name);
