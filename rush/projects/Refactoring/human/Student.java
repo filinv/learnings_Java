@@ -33,12 +33,12 @@ public class Student extends UniversityPerson {
         return course;
     }
 
-    public void setBeginningOfSession(int day, int month, int year) {
-        beginningOfSession = new Date(year, month, day);
+    public void setBeginningOfSession(Date date) {
+        beginningOfSession = date;
     }
 
-    public void setEndOfSession(int day, int month, int year) {
-        endOfSession = new Date(year, month, day);
+    public void setEndOfSession(Date date) {
+        endOfSession = date;
     }
 
     public double getAverageGrade() {
