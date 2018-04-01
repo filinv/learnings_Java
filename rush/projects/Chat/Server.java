@@ -21,6 +21,26 @@ public class Server {
             e.printStackTrace();
         }
     }
+    @Override
+        public void run() {
+            String newUser=null;
+            ConsoleHelper.writeMessage(String.format("connected to server "+socket.getRemoteSocketAddress()));
+            try (Connection connection=new Connection(socket))
+                {
+                newUser=serverHandshake(connection);
+                sendBroadcastMessage(new Message(MessageType.USER_ADDED, newUser));
+                sendListOfUsers(connection,newUser);
+                serverMainLoop(connection,newUser);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                if(newUser!=null){
+                connectionMap.remove(newUser);
+                sendBroadcastMessage(new Message(MessageType.USER_REMOVED,newUser));
+                }
+                ConsoleHelper.writeMessage("rejected connection to server");
+            }
+        }
     
     public static void sendBroadcastMessage(Message message){
         for(Map.Entry<String, Connection> pair: connectionMap.entrySet()){
