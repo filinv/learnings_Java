@@ -106,5 +106,18 @@ public class Client {
                 }
             }
         }
+        @Override
+        public void run() {
+            String address=getServerAddress();
+            int port=getServerPort();
+            try {
+                Socket socket=new Socket(address,port);
+                connection=new Connection(socket);
+                clientHandshake();
+                clientMainLoop();
+            } catch (IOException | ClassNotFoundException e) {
+                notifyConnectionStatusChanged(false);
+            }
+        }
     }
 }
