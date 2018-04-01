@@ -3,6 +3,32 @@ import java.io.IOException;
 public class Client {
     protected Connection connection;
     private volatile boolean clientConnected=false;
+    
+    public static void main(String[] args){
+        Client client=new Client();
+        client.run();
+    }
+
+    public void run(){
+        SocketThread socketThread=getSocketThread();
+        socketThread.setDaemon(true);
+        socketThread.start();
+        try {
+            synchronized (this) {
+                wait();
+            }
+        } catch (InterruptedException e) {
+            ConsoleHelper.writeMessage("connection interrupted");
+            socketThread.interrupt();
+        }
+        if(clientConnected)ConsoleHelper.writeMessage("Соединение установлено. Для выхода наберите команду 'exit'.");
+        else ConsoleHelper.writeMessage("Произошла ошибка во время работы клиента.");
+        while (clientConnected){
+            String message=ConsoleHelper.readString();
+            if(message.equals("exit"))break;
+            if(shouldSendTextFromConsole())sendTextMessage(message);
+        }
+    }
 
     protected String getServerAddress(){
         System.out.println("input address (ip/localhost):");
