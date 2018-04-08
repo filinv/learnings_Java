@@ -11,6 +11,8 @@ public class Archiver {
             System.out.println("Input full path to file which need to archive:");
             zipFileManager.createZip(Paths.get(consoleReader.readLine()));
             consoleReader.close();
+            ExitCommand exitCommand=new ExitCommand();
+            exitCommand.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
