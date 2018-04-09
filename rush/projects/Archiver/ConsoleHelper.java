@@ -9,22 +9,19 @@ public class ConsoleHelper {
     }
 
     /**Прочитать строку с консоли*/
-    public static String readString() throws IOException{
-        BufferedReader consoleReader=new BufferedReader(new InputStreamReader(System.in));
-        String result=consoleReader.readLine();
-        consoleReader.close();
-        return result;
+    public static String readString(){
+        String text=null;
+        try {
+            text = bis.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text;
     }
 
     /**Прочитать число с консоли*/
-    public static int readInt() throws IOException{
-        BufferedReader consoleReader=new BufferedReader(new InputStreamReader(System.in));
-        Integer result=null;
-        while (result==null) {
-            String line=consoleReader.readLine();
-            result=Integer.parseInt(line);
-        }
-        consoleReader.close();
-        return result;
+    public static int readInt(){
+        String text = readString();
+        return Integer.parseInt(text.trim());
     }
 }
