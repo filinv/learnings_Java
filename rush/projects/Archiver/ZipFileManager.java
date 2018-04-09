@@ -32,6 +32,25 @@ public class ZipFileManager {
             e.printStackTrace();
         }
     }
+    public void extractAll(Path outputFolder) throws Exception{
+        // Проверяем существует ли zip файл
+        if (!Files.isRegularFile(zipFile)) {
+            throw new WrongZipFileException();
+        }
+        // Проверяем, существует ли директория, куда будет распаковываться архив
+        // При необходимости создаем ее и всех её родителей
+        if(Files.notExists(outputFolder))Files.createDirectories(outputFolder);
+        try(ZipInputStream zipInputStream=new ZipInputStream(Files.newInputStream(zipFile))){
+            ZipEntry entry=null;
+            while ((entry=zipInputStream.getNextEntry())!=null){
+                Path outEntryPath=outputFolder.resolve(entry.getName());
+                if(Files.notExists(outEntryPath.getParent()))Files.createDirectories(outEntryPath.getParent());
+                OutputStream outputStream=Files.newOutputStream(outEntryPath);
+                copyData(zipInputStream,outputStream);
+                outputStream.close();
+            }
+        }
+    }
     public List<FileProperties> getFilesList() throws Exception {
         // Проверяем существует ли zip файл
         if (!Files.isRegularFile(zipFile)) {
