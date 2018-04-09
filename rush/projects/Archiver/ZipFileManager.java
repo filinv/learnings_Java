@@ -1,7 +1,9 @@
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -12,20 +14,41 @@ public class ZipFileManager {
         this.zipFile = zipFile;
     }
     public void createZip(Path source) throws Exception{
+        Path zipParent=zipFile.getParent();
+        if(!Files.exists(zipParent))Files.createDirectory(zipParent);
         try(ZipOutputStream zipOutputStream=new ZipOutputStream(Files.newOutputStream(zipFile)))
         {
-            ZipEntry zipEntry=new ZipEntry(source.getFileName().toString());
-            zipOutputStream.putNextEntry(zipEntry);
-            try(InputStream inputStream=Files.newInputStream(source)){
-                while (inputStream.available()>0) {
-                    zipOutputStream.write(inputStream.read());
-                }
-            } catch (IOException e){
-                e.printStackTrace();
+            if(Files.isRegularFile(source)){
+                addNewZipEntry(zipOutputStream,source.getParent(),source.getFileName());
             }
+            else if(Files.isDirectory(source)){
+                FileManager fileManager=new FileManager(source);
+                List<Path> fileNames=fileManager.getFileList();
+                for(Path fileName:fileNames){
+                    addNewZipEntry(zipOutputStream,source,fileName);
+                }
+            } else throw new PathIsNotFoundException();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**adding one new Entry */
+    private void addNewZipEntry(ZipOutputStream zipOutputStream, Path filePath, Path fileName) throws Exception{
+        try (InputStream inputStream=Files.newInputStream(filePath.resolve(fileName))){
+            ZipEntry zipEntry=new ZipEntry(fileName.toString());
+            zipOutputStream.putNextEntry(zipEntry);
+            copyData(inputStream,zipOutputStream);
             zipOutputStream.closeEntry();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**Он должен читать данные из in и записывать в out, пока не вычитает все. */
+    private void copyData(InputStream in, OutputStream out) throws Exception{
+        while (in.available()>0){
+            out.write(in.read());
         }
     }
 }
