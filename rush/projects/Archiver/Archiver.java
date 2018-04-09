@@ -1,20 +1,30 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
-
 public class Archiver {
     public static void main(String[] args){
-        try {
-            System.out.println("Input full path to destination archive file:");
-            BufferedReader consoleReader=new BufferedReader(new InputStreamReader(System.in));
-            ZipFileManager zipFileManager=new ZipFileManager(Paths.get(consoleReader.readLine()));
-            System.out.println("Input full path to file which need to archive:");
-            zipFileManager.createZip(Paths.get(consoleReader.readLine()));
-            consoleReader.close();
-            ExitCommand exitCommand=new ExitCommand();
-            exitCommand.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
+        Operation operation=null;
+        while (true){
+            if(operation==Operation.EXIT)break;
+            try {
+                operation=askOperation();
+                CommandExecutor.execute(operation);
+            } catch (WrongZipFileException e){
+                ConsoleHelper.writeMessage("Вы не выбрали файл архива или выбрали неверный файл.");
+            } catch (Exception e) {
+                ConsoleHelper.writeMessage("Произошла ошибка. Проверьте введенные данные.");
+            } finally {
+                continue;
+            }
         }
+    }
+    public static Operation askOperation(){
+        String message1="Пожалуйста введите номер необходимой операции из предложенных";
+        StringBuilder sb=new StringBuilder();
+        String[]commands={"упаковать файлы в архив","добавить файл в архив","удалить файл из архива",
+                "распаковать архив","просмотреть содержимое архива","выход"};
+        for(int i=0;i<Operation.values().length;i++){
+            sb.append(Operation.values()[i].ordinal()).append(" - ").append(commands[i]).append('\n');
+        }
+        ConsoleHelper.writeMessage(String.format("%s%n%s",message1,sb.toString()));
+        int number=ConsoleHelper.readInt();
+        return Operation.values()[number];
     }
 }
