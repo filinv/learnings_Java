@@ -1,0 +1,44 @@
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class MyThread extends Thread {
+    private static AtomicInteger prior=new AtomicInteger(1);
+
+    public void determinePriority(){
+        if (prior.get() < 10) setPriority(prior.getAndIncrement());
+        else {
+            setPriority(prior.get());
+            prior.set(1);
+        }
+    }
+    public MyThread() {
+        determinePriority();
+    }
+    public MyThread(Runnable target) {
+        super(target);
+        determinePriority();
+    }
+    public MyThread(ThreadGroup group, Runnable target) {
+        super(group, target);
+        determinePriority();
+    }
+    public MyThread(String name) {
+        super(name);
+        determinePriority();
+    }
+    public MyThread(ThreadGroup group, String name) {
+        super(group, name);
+        determinePriority();
+    }
+    public MyThread(Runnable target, String name) {
+        super(target, name);
+        determinePriority();
+    }
+    public MyThread(ThreadGroup group, Runnable target, String name) {
+        super(group, target, name);
+        determinePriority();
+    }
+    public MyThread(ThreadGroup group, Runnable target, String name, long stackSize) {
+        super(group, target, name, stackSize);
+        determinePriority();
+    }    
+}
