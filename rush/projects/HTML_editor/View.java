@@ -31,7 +31,15 @@ public class View extends JFrame implements ActionListener {
     public void initMenuBar(){}
 
     /**отвечает за инициализацию панелей редактора. */
-    public void initEditor(){}
+    public void initEditor(){
+        htmlTextPane.setContentType("text/html");
+
+        tabbedPane.addTab("HTML",new JScrollPane(htmlTextPane));
+        tabbedPane.addTab("Текст",new JScrollPane(plainTextPane));
+        tabbedPane.setPreferredSize(new Dimension(100,100));
+        tabbedPane.addChangeListener(new TabbedPaneChangeListener(this));
+        getContentPane().add(tabbedPane,BorderLayout.CENTER);
+    }
 
     /**инициализирует графический интерфейс */
     public void initGui(){
