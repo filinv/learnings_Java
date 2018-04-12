@@ -39,6 +39,18 @@ public class Controller {
             ExceptionHandler.log(e);
         }
     }
+    /**должен получать текст из документа со всеми html тегами */
+    public String getPlainText(){
+        StringWriter writer=new StringWriter();
+        try {
+            new HTMLEditorKit().write(writer,document,0,document.getLength());
+        } catch (IOException e) {
+            ExceptionHandler.log(e);
+        } catch (BadLocationException e) {
+            ExceptionHandler.log(e);
+        }
+        return writer.toString();
+    }
     public void exit(){
         System.exit(0);
     }
