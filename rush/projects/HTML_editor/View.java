@@ -31,8 +31,19 @@ public class View extends JFrame implements ActionListener {
             ExceptionHandler.log(e);
         }
     }
+    /**будет вызваться при выборе пунктов меню,
+     * у которых наше представление указано в виде слушателя событий */
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent actionEvent) {
+        String actionCommand=actionEvent.getActionCommand();
+        switch (actionCommand){
+            case("Новый"):controller.createNewDocument();break;
+            case("Открыть"):controller.openDocument();break;
+            case("Сохранить"):controller.saveDocument();break;
+            case("Сохранить как..."):controller.saveDocumentAs();break;
+            case("Выход"):controller.exit();break;
+            case("О программе"):showAbout();break;
+        }
     }
 
     public Controller getController() {
