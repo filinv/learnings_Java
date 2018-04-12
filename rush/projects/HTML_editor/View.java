@@ -1,9 +1,15 @@
 import javax.swing.*;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class View extends JFrame implements ActionListener {
     private Controller controller;
+    private UndoManager undoManager=new UndoManager();
+    private UndoListener undoListener=new UndoListener(undoManager);
     /**панель с двумя вкладками. */
     private JTabbedPane tabbedPane=new JTabbedPane();
 
@@ -72,9 +78,33 @@ public class View extends JFrame implements ActionListener {
     }
     public void selectedTabChanged(){}
     public boolean canUndo(){
-        return false;
+        return undoManager.canUndo();
     }
-    public boolean canRedo(){return false;}
+    public boolean canRedo(){return undoManager.canRedo();}
+    /**отменяет последнее действие */
+    public void undo(){
+        try {
+            undoManager.undo();
+        } catch (CannotUndoException e) {
+            ExceptionHandler.log(e);
+        }
+    }
+    /**возвращает ранее отмененное действие */
+    public void redo(){
+        try {
+            undoManager.redo();
+        } catch (CannotRedoException e) {
+            ExceptionHandler.log(e);
+        }
+    }
+
+    public UndoListener getUndoListener() {
+        return undoListener;
+    }
+    /**должен сбрасывать все правки в менеджере undoManager */
+    public void resetUndo(){
+        undoManager.discardAllEdits();
+    }
     public void exit(){
         controller.exit();
     }
