@@ -9,5 +9,14 @@ public class Controller {
     public Controller(View view) {
         this.view = view;
     }
-    public static void main(String []args){}
+    public static void main(String []args){View mainView=new View();
+        Controller mainController=new Controller(mainView);
+        mainView.setController(mainController);
+        mainView.init();
+        mainController.init();
+    }
+    public void init(){}
+    public void exit(){
+        System.exit(0);
+    }
 }
