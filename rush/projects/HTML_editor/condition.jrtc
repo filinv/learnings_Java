@@ -408,3 +408,20 @@ HTML Editor (15)
 3. Метод resetDocument() должен создавать новый документ по умолчанию через метод createDefaultDocument().
 4. Метод resetDocument() должен добавлять новому документу слушателя правок через метод addUndoableEditListener().
 5. Метод resetDocument() должен вызывать у представления метод update().
+
+HTML Editor (16)
+Добавь метод setPlainText(String text) в контроллер. Он будет записывать переданный текст с html тегами в документ document.
+При его реализации:
+16.1. Сбрось документ.
+16.2. Создай новый реадер StringReader на базе переданного текста.
+16.3. Вызови метод read() из класса HTMLEditorKit, который вычитает данные из реадера в
+документ document.
+16.4. Проследи, чтобы метод не кидал исключения. Их необходимо просто логировать.
+Требования:
+1. Класс Controller должен содержать публичный метод setPlainText(String text), который будет записывать переданный текст
+с html тегами в документ document.
+2. Метод setPlainText(String text) должен сбрасывать документ через метод resetDocument().
+3. Метод setPlainText(String text) должен создавать новый StringReader на базе переданного параметра.
+4. Метод setPlainText(String text) должен вызывать метод read() у объекта HTMLEditorKit.
+5. Если в методе setPlainText(String text) возникнет исключительная ситуация, то исключение должно логироваться
+через метод log у класса ExceptionHandler.
