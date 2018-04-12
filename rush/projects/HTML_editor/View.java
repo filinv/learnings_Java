@@ -22,7 +22,23 @@ public class View extends JFrame implements ActionListener {
     public void setController(Controller controller) {
         this.controller = controller;
     }
-    public void init(){}
+    public void init(){
+        initGui();
+        this.addWindowListener(new FrameListener(this));
+        this.setVisible(true);
+    }
+    /**отвечает за инициализацию меню редактора. */
+    public void initMenuBar(){}
+
+    /**отвечает за инициализацию панелей редактора. */
+    public void initEditor(){}
+
+    /**инициализирует графический интерфейс */
+    public void initGui(){
+        initMenuBar();
+        initEditor();
+        pack();
+    }
     public void exit(){
         controller.exit();
     }
