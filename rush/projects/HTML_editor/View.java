@@ -12,6 +12,19 @@ public class View extends JFrame implements ActionListener {
 
     /**компонент для редактирования html в виде текста, он будет отображать код html (теги и их содержимое). */
     private JEditorPane plainTextPane=new JEditorPane();
+    public View() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException e) {
+            ExceptionHandler.log(e);
+        } catch (InstantiationException e) {
+            ExceptionHandler.log(e);
+        } catch (IllegalAccessException e) {
+            ExceptionHandler.log(e);
+        } catch (UnsupportedLookAndFeelException e) {
+            ExceptionHandler.log(e);
+        }
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
     }
@@ -28,7 +41,17 @@ public class View extends JFrame implements ActionListener {
         this.setVisible(true);
     }
     /**отвечает за инициализацию меню редактора. */
-    public void initMenuBar(){}
+    public void initMenuBar(){
+        JMenuBar jMenuBar=new JMenuBar();
+        MenuHelper.initFileMenu(this,jMenuBar);
+        MenuHelper.initEditMenu(this,jMenuBar);
+        MenuHelper.initStyleMenu(this,jMenuBar);
+        MenuHelper.initAlignMenu(this,jMenuBar);
+        MenuHelper.initColorMenu(this,jMenuBar);
+        MenuHelper.initFontMenu(this,jMenuBar);
+        MenuHelper.initHelpMenu(this,jMenuBar);
+        getContentPane().add(jMenuBar,BorderLayout.NORTH);
+    }
 
     /**отвечает за инициализацию панелей редактора. */
     public void initEditor(){
