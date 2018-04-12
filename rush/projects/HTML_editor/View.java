@@ -71,6 +71,10 @@ public class View extends JFrame implements ActionListener {
         pack();
     }
     public void selectedTabChanged(){}
+    public boolean canUndo(){
+        return false;
+    }
+    public boolean canRedo(){return false;}
     public void exit(){
         controller.exit();
     }
