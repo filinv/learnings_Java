@@ -105,6 +105,12 @@ public class View extends JFrame implements ActionListener {
     public void resetUndo(){
         undoManager.discardAllEdits();
     }
+    /**Пункты меню, отвечающие за стиль, шрифт, цвет и т.д.
+     * должны быть доступны только тогда,
+     * когда в нашем редакторе выбрана первая вкладка */
+    public boolean isHtmlTabSelected(){
+        return tabbedPane.getSelectedIndex()==0;
+    }
     public void exit(){
         controller.exit();
     }
