@@ -16,6 +16,9 @@ public class Controller {
         mainController.init();
     }
     public void init(){}
+    public HTMLDocument getDocument() {
+        return document;
+    }
     public void exit(){
         System.exit(0);
     }
