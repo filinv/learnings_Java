@@ -76,7 +76,21 @@ public class View extends JFrame implements ActionListener {
         initEditor();
         pack();
     }
-    public void selectedTabChanged(){}
+    /**Этот метод вызывается, когда произошла смена выбранной вкладки */
+    public void selectedTabChanged(){
+        switch (tabbedPane.getSelectedIndex()){
+            //html вкладка
+            case 0:{
+                controller.setPlainText(plainTextPane.getText());
+                break;
+            }
+            //вкладка с html текстом
+            case 1:{
+                plainTextPane.setText(controller.getPlainText());
+            }
+        }
+        resetUndo();
+    }
     public boolean canUndo(){
         return undoManager.canUndo();
     }
