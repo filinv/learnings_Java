@@ -27,6 +27,18 @@ public class Controller {
         document.addUndoableEditListener(view.getUndoListener());
         view.update();
     }
+    /**записывает переданный текст с html тегами в документ document */
+    public void setPlainText(String text){
+        resetDocument();
+        StringReader reader=new StringReader(text);
+        try {
+            new HTMLEditorKit().read(reader,document,0);
+        } catch (IOException e) {
+            ExceptionHandler.log(e);
+        } catch (BadLocationException e) {
+            ExceptionHandler.log(e);
+        }
+    }
     public void exit(){
         System.exit(0);
     }
