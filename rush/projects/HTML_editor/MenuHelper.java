@@ -1,4 +1,8 @@
 import javax.swing.*;
+import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledEditorKit;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class MenuHelper {
