@@ -18,5 +18,7 @@ public class Cook extends Observable implements Observer{
         /** observable - объект, который отправил нам значение
          * arg - само значение, в нашем случае - это объект Order */
         ConsoleHelper.writeMessage("Start cooking - " + arg);
+        setChanged();
+        notifyObservers(arg);
     }
 }
