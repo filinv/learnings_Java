@@ -3,6 +3,8 @@ public class Restaurant {
         Tablet tablet=new Tablet(5);
         Cook cook=new Cook("Amigo");
         tablet.addObserver(cook);
+        Waiter waiter=new Waiter();
+        cook.addObserver(waiter);
         tablet.createOrder();
     }
 }
