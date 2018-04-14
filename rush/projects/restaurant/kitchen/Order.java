@@ -9,6 +9,16 @@ public class Order {
         this.tablet = tablet;
         dishes= ConsoleHelper.getAllDishesForOrder();
     }
+    public int getTotalCookingTime(){
+        int totalCookingTime=0;
+        for(Dish dish: dishes){
+            totalCookingTime+=dish.getDuration();
+        }
+        return totalCookingTime;
+    }
+    public boolean isEmpty(){
+        return dishes.isEmpty();
+    }
     @Override
     public String toString() {
         return dishes.isEmpty() ? "" : "Your order: " + dishes + " of " + tablet;
