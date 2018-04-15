@@ -26,7 +26,11 @@ public class Tablet extends Observable {
             logger.log(Level.SEVERE,"Console is unavailable.");
         }
         if (!order.isEmpty()) {
-            new AdvertisementManager(order.getTotalCookingTime()*60).processVideos();
+            try {
+                new AdvertisementManager(order.getTotalCookingTime()*60).processVideos();
+            } catch (NoVideoAvailableException e) {
+                logger.log(Level.INFO,"No video is available for the order " + order);
+            }
             setChanged();
             notifyObservers(order);
         }
