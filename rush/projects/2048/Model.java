@@ -24,6 +24,8 @@ public class Model {
         }
         addTile();
         addTile();
+        score=0;
+        maxTile=0;
     }
     /**
      * будет смотреть какие плитки пустуют и менять вес одной из них,
