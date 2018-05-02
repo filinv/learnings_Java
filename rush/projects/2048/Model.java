@@ -32,7 +32,9 @@ public class Model {
      * выбранной случайным образом,
      * на 2 или 4 (на 9 двоек должна приходиться 1 четверка)*/
     private void addTile(){
-        getEmptyTiles().get((int)(Math.random()*getEmptyTiles().size())).value=Math.random() < 0.9 ? 2 : 4;
+        if (getEmptyTiles().size()>0) {
+            getEmptyTiles().get((int)(Math.random()*getEmptyTiles().size())).value=Math.random() < 0.9 ? 2 : 4;
+        }
     }
     /** возвращает список
      * свободных плиток в массиве gameTiles*/
@@ -47,16 +49,20 @@ public class Model {
     }
     /** Сжатие плиток, таким образом,
      * чтобы все пустые плитки были справа,
-     * т.е. ряд {4, 2, 0, 4} становится рядом {4, 2, 4, 0}*/
-    private void compressTiles(Tile[] tiles){
+     * т.е. ряд {4, 2, 0, 4} становится рядом {4, 2, 4, 0}
+     * возвращает true в случае, если он вносил изменения во входящий массив, иначе - false*/
+    private boolean compressTiles(Tile[] tiles){
+        boolean change=false;
         for (int j = 0; j < tiles.length - 1; j++){
             for (int i = 0; i < tiles.length - 1; i++) {
-                if (tiles[i].value == 0) {
+                if (tiles[i].isEmpty()& !tiles[i+1].isEmpty()) {
                     tiles[i].value = tiles[i + 1].value;
                     tiles[i + 1].value = 0;
+                    change=true;
                 }
             }
         }
+        return change;
     }
     /** Слияние плиток одного номинала,
      * т.е. ряд {4, 4, 2, 0} становится рядом {8, 2, 0, 0}.
@@ -64,8 +70,10 @@ public class Model {
      * а {4, 4, 4, 0} в {8, 4, 0, 0}
      * Счет увеличивается после каждого слияния,
      * например если текущий счет 20 и
-     * было выполнено слияние ряда {4, 4, 4, 0}, счет должен увеличиться на 8*/
-    private void mergeTiles(Tile[] tiles){
+     * было выполнено слияние ряда {4, 4, 4, 0}, счет должен увеличиться на 8
+     * возвращает true в случае, если он вносил изменения во входящий массив, иначе - false*/
+    private boolean mergeTiles(Tile[] tiles){
+        boolean change=false;
         for(int i=0;i<tiles.length-1;i++){
             if(!tiles[i].isEmpty()&&tiles[i].value==tiles[i+1].value){
                 tiles[i].value*=2;
@@ -73,8 +81,19 @@ public class Model {
                 if(tiles[i].value>maxTile)maxTile=tiles[i].value;
                 tiles[i+1].value=0;
                 ++i;
+                change=true;
             }
         }
         compressTiles(tiles);
+        return change;
+    }
+    /** для каждой строки массива gameTiles вызывать методы compressTiles и mergeTiles
+     * и добавлять одну плитку с помощью метода addTile в том случае, если это необходимо*/
+    public void left(){
+        boolean change=false;
+        for(int i=0;i<FIELD_WIDTH;i++){
+            if(compressTiles(gameTiles[i])|mergeTiles(gameTiles[i]))change=true;
+        }
+        if(change)addTile();
     }
 }
