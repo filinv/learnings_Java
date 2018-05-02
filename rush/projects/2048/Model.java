@@ -96,11 +96,13 @@ public class Model {
     /** для каждой строки массива gameTiles вызывать методы compressTiles и mergeTiles
      * и добавлять одну плитку с помощью метода addTile в том случае, если это необходимо*/
     public void left(){
+        if(isSaveNeeded)saveState(gameTiles);
         boolean change=false;
         for(int i=0;i<FIELD_WIDTH;i++){
             if(compressTiles(gameTiles[i])|mergeTiles(gameTiles[i]))change=true;
         }
         if(getEmptyTiles().size()>0&&change)addTile();
+        isSaveNeeded=true;
     }
     private void rotate(){
         Tile[][] rotateTile = new Tile[FIELD_WIDTH][FIELD_WIDTH];
@@ -114,6 +116,7 @@ public class Model {
         gameTiles = rotateTile;
     }
     public void right(){
+        saveState(gameTiles);
         rotate();
         rotate();
         left();
@@ -121,6 +124,7 @@ public class Model {
         rotate();
     }
     public void up(){
+        saveState(gameTiles);
         rotate();
         rotate();
         rotate();
@@ -128,6 +132,7 @@ public class Model {
         rotate();
     }
     public void down(){
+        saveState(gameTiles);
         rotate();
         left();
         rotate();
@@ -155,7 +160,13 @@ public class Model {
     }
     /** будет сохранять текущее игровое состояние и счет в стеки*/
     private void saveState(Tile[][] tiles){
-        Tile[][] copyTiles= Arrays.copyOf(tiles,tiles.length);
+        Tile[][] copyTiles = new Tile[FIELD_WIDTH][FIELD_WIDTH];
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            for (int j = 0; j < FIELD_WIDTH; j++) {
+                copyTiles[i][j] = new Tile();
+                copyTiles[i][j].value = tiles[i][j].value;
+            }
+        }
         previousStates.push(copyTiles);
         previousScores.push(score);
         isSaveNeeded=false;
