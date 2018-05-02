@@ -155,7 +155,7 @@ public class Model {
     }
     /** будет сохранять текущее игровое состояние и счет в стеки*/
     private void saveState(Tile[][] tiles){
-        Tile[][] copyTiles= Arrays.copyOf(gameTiles,gameTiles.length);
+        Tile[][] copyTiles= Arrays.copyOf(tiles,tiles.length);
         previousStates.push(copyTiles);
         previousScores.push(score);
         isSaveNeeded=false;
