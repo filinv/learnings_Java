@@ -96,4 +96,36 @@ public class Model {
         }
         if(change)addTile();
     }
+    private void rotate(){
+        Tile[][] rotateTile = new Tile[FIELD_WIDTH][FIELD_WIDTH];
+        int n = FIELD_WIDTH - 1;
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            for (int j = 0; j < FIELD_WIDTH; j++) {
+                rotateTile[j][n] = gameTiles[i][j];
+            }
+            n--;
+        }
+        gameTiles = rotateTile;
+    }
+    public void right(){
+        rotate();
+        rotate();
+        left();
+        rotate();
+        rotate();
+    }
+    public void up(){
+        rotate();
+        rotate();
+        rotate();
+        left();
+        rotate();
+    }
+    public void down(){
+        rotate();
+        left();
+        rotate();
+        rotate();
+        rotate();
+    }
 }
