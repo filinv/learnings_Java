@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 /** будет содержать игровую логику и хранить игровое поле.*/
 public class Model {
@@ -9,6 +11,8 @@ public class Model {
     int score;
     /** максимальный вес плитки на игровом поле*/
     int maxTile;
+    Stack previousStates,previousScores;
+    boolean isSaveNeeded = true;
 
     private Tile[][] gameTiles;
 
@@ -26,6 +30,8 @@ public class Model {
         addTile();
         score=0;
         maxTile=0;
+        previousStates=new Stack();
+        previousScores=new Stack();
     }
     /**
      * будет смотреть какие плитки пустуют и менять вес одной из них,
@@ -94,7 +100,7 @@ public class Model {
         for(int i=0;i<FIELD_WIDTH;i++){
             if(compressTiles(gameTiles[i])|mergeTiles(gameTiles[i]))change=true;
         }
-        if(change)addTile();
+        if(getEmptyTiles().size()>0&&change)addTile();
     }
     private void rotate(){
         Tile[][] rotateTile = new Tile[FIELD_WIDTH][FIELD_WIDTH];
@@ -128,6 +134,7 @@ public class Model {
         rotate();
         rotate();
     }
+
     public Tile[][] getGameTiles() {
         return gameTiles;
     }
@@ -145,5 +152,20 @@ public class Model {
             }
         }
         return canMove;
+    }
+    /** будет сохранять текущее игровое состояние и счет в стеки*/
+    private void saveState(Tile[][] tiles){
+        Tile[][] copyTiles= Arrays.copyOf(gameTiles,gameTiles.length);
+        previousStates.push(copyTiles);
+        previousScores.push(score);
+        isSaveNeeded=false;
+    }
+    /** будет устанавливать текущее игровое состояние
+     * равным последнему находящемуся в стеках*/
+    public void rollback(){
+        if (!previousStates.empty()&&!previousScores.empty()) {
+            gameTiles=(Tile[][]) previousStates.pop();
+            score=(int)previousScores.pop();
+        }
     }
 }
