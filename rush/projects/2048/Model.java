@@ -179,4 +179,13 @@ public class Model {
             score=(int)previousScores.pop();
         }
     }
+    public void randomMove(){
+        int n = ((int) (Math.random() * 100)) % 4;
+        switch (n){
+            case 0: left();break;
+            case 1: right();break;
+            case 2: up();break;
+            case 3: down();break;
+        }
+    }
 }
