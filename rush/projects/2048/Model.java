@@ -188,4 +188,33 @@ public class Model {
             case 3: down();break;
         }
     }
+    /** будет возвращать true, в случае,
+     * если вес плиток в массиве gameTiles отличается
+     * от веса плиток в верхнем массиве стека previousStates*/
+    public boolean hasBoardChanged(){
+        int currentWeight=0;
+        int previousWeight=0;
+        Tile[][] buf=(Tile[][])previousStates.peek();
+        for(int i=0;i<FIELD_WIDTH;i++){
+            for (int j=0;j<FIELD_WIDTH;j++){
+                currentWeight+=gameTiles[i][j].value;
+                previousWeight+=buf[i][j].value;
+            }
+        }
+        return currentWeight!=previousWeight;
+    }
+    /** возвращает объект типа MoveEfficiency,
+     * описывающий эффективность переданного хода*/
+    public MoveEfficiency getMoveEfficiency(Move move){
+        MoveEfficiency move0=new MoveEfficiency(getEmptyTiles().size(),score,move);
+        move.move();
+        if(!hasBoardChanged()){
+            rollback();
+            return new MoveEfficiency(-1,0,move);
+        }
+        else {
+            rollback();
+            return move0;
+        }
+    }
 }
