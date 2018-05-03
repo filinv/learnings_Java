@@ -30,6 +30,7 @@ public class Controller extends KeyAdapter{
         if(e.getKeyCode()==KeyEvent.VK_ESCAPE)resetGame();
         if(e.getKeyCode()==KeyEvent.VK_Z)model.rollback();
         if(e.getKeyCode()==KeyEvent.VK_R)model.randomMove();
+        if(e.getKeyCode()==KeyEvent.VK_A)model.autoMove();
         if(model.canMove()==false)view.isGameLost=true;
         if(view.isGameLost==false&&view.isGameWon==false){
             switch (e.getKeyCode()){
