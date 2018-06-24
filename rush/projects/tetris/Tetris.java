@@ -8,4 +8,8 @@ public class Tetris {
     public Figure getFigure() {
         return figure;
     }
+    /** будет отвечать за всю игру*/
+    public void run(){}
+    /** будет отвечать за один шаг в игре*/
+    public void step(){}
 }
