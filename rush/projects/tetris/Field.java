@@ -23,7 +23,16 @@ public class Field {
         return matrix;
     }
     /** объект будет отрисовывать на экран свое текущее состояние*/
-    public void print(){}
+    public void print(){
+        for(int y=0;y<height;y++){
+            for(int x=0;x<width;x++){
+                if(matrix[y][x]==0){
+                    System.out.print(".");
+                } else System.out.print("X");
+            }
+            System.out.println("");
+        }
+    }
     /** будет удалять из матрицы полностью заполненные строки и сдвигать вышележащие строки вниз*/
     public void removeFullLines(){}
     /** возвращает значение которое находится в матрице с координатами x и y*/
